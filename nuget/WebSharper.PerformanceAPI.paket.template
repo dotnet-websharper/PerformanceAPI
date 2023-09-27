@@ -1,0 +1,22 @@
+type file
+id WebSharper.PerformanceAPI
+authors
+    IntelliFactory
+owners
+    IntelliFactory
+repositoryType git
+repositoryUrl https://github.com/dotnet-websharper/PerformanceAPI/
+licenseUrl https://github.com/dotnet-websharper/PerformanceAPI/blob/master/LICENSE.md
+iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
+projectUrl https://github.com/dotnet-websharper/PerformanceAPI
+description
+    WebSharper bindings for the W3C Performance API
+tags
+    Web JavaScript F# C#
+files
+    ../WebSharper.Bindings.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.Bindings.PerformanceAPI.dll ==> lib/netstandard2.0
+    ../WebSharper.Bindings.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.Bindings.PerformanceAPI.xml ==> lib/netstandard2.0
+    ../WebSharper.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.PerformanceAPI.dll ==> lib/netstandard2.0
+    ../WebSharper.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.PerformanceAPI.xml ==> lib/netstandard2.0
+dependencies
+        WebSharper ~> LOCKEDVERSION:[3]

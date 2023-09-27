@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <WebSharperProject>Bundle</WebSharperProject>
+        <WebSharperBundleOutputDir>Content</WebSharperBundleOutputDir>
+        <WebSharperSourceMap>false</WebSharperSourceMap>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+  <ItemGroup>
+    <Content Include="index.html" />
+    <Compile Include="Client.fs" />
+    <None Include="vite.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebSharper.Bindings.PerformanceAPI\WebSharper.Bindings.PerformanceAPI.fsproj" />
+    <ProjectReference Include="..\WebSharper.PerformanceAPI\WebSharper.PerformanceAPI.fsproj" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>
