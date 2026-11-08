@@ -16,11 +16,5 @@
   <ItemGroup>
     <ProjectReference Include="..\WebSharper.Bindings.PerformanceAPI\WebSharper.Bindings.PerformanceAPI.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WebSharper" Version="10.1.10.687" />
-    <PackageReference Include="WebSharper.FSharp" Version="10.1.10.687" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="10.1.403" />
-  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
