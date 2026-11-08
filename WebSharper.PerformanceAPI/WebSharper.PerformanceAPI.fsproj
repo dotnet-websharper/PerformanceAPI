@@ -6,7 +6,7 @@
     <WebSharperSourceMap>false</WebSharperSourceMap>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Product>WebSharper.PerformanceAPI</Product>
-    <Title>https://github.com/dotnet-websharper/w4c-webperf/</Title>
+    <Title>https://github.com/dotnet-websharper/PerformanceAPI/</Title>
     <Company>IntelliFactory</Company>
     <Copyright>(c) 2023 IntelliFactory</Copyright>
   </PropertyGroup>

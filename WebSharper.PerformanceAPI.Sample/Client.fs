@@ -1,59 +1,70 @@
 ﻿namespace WebSharper.PerformanceAPI.Sample
 
 open WebSharper
-open WebSharper.UI
-open WebSharper.UI.Client
-open WebSharper.UI.Html
-open WebSharper.UI.Templating
 open WebSharper.JavaScript
-
-[<JavaScript>]
-module Templates =
-    type MainTemplate = Template<"index.html", ClientLoad.FromDocument>
+open WebSharper.UI
+open WebSharper.UI.Notation
+open WebSharper.UI.Client
+open WebSharper.UI.Templating
+open WebSharper.PerformanceAPI
+open WebSharper.PerformanceAPI.PerformanceEntries
 
 [<JavaScript>]
 module Client =
-    open WebSharper.PerformanceAPI
-    open WebSharper.PerformanceAPI.PerformanceEntries
+    // The template is loaded from the DOM, so editing index.html and refreshing
+    // the browser is enough; a rebuild is only needed when holes change.
+    type IndexTemplate = Template<"index.html", ClientLoad.FromDocument>
 
-    let sampleList = Var.Create<int list> []
+    let status = Var.Create "Ready."
+    let entryCount = Var.Create "0"
+    let paintCount = Var.Create "0"
+    let paintTimings = Var.Create ([] : string list)
+    let entries = Var.Create ([] : string list)
+
+    let describe (e: PerformanceEntry) =
+        let duration =
+            if e.Duration > 0.0 then sprintf " · %.1f ms" e.Duration else ""
+        sprintf "%s — %s · start %.1f ms%s" (string e.EntryType) e.Name e.StartTime duration
+
+    let refresh () =
+        let all = JS.Window.Performance.GetEntries() |> List.ofArray
+        let paints = all |> List.filter (fun e -> e.EntryType = EntryType.Paint)
+        entryCount := string all.Length
+        paintCount := string paints.Length
+        entries := all |> List.map describe
+        paintTimings := paints |> List.map describe
+        status := $"Collected {all.Length} entries from performance.getEntries()."
+
+    let runMark () =
+        let perf = JS.Window.Performance
+        perf.Mark("sample-start") |> ignore
+        perf.Mark("sample-end") |> ignore
+        perf.Measure("sample-measure", "sample-start", "sample-end") |> ignore
+        status := "Added a mark and a measure, then refreshed the snapshot."
+        refresh ()
+
     [<SPAEntryPoint>]
-    let Main() = 
+    let Main () =
+        // Watch paint entries as they are recorded by the browser. `buffered`
+        // replays the paint entries that happened before the observer was set up.
+        PerformanceObserver(fun (list: PerformanceObserver.EntryList) _ ->
+            for e in list.GetEntries() do
+                Console.Log $"observer: {e.EntryType} — {e.Name} @ {e.StartTime} ms"
+            refresh ()
+        ).Observe(PerformanceObserver.Options(EntryType.Paint, true))
 
-        PerformanceObserver(fun list observer -> (
-            for r in list.GetEntries() do
-                Console.Log $"OBSERVER {r.EntryType}: evt start: {r.StartTime} | evt end: {r.StartTime+r.Duration}"
-                ()
-        )).Observe(PerformanceObserver.Options(EntryType.Paint))
-        Doc.Concat [
-            div [
-                on.afterRender (fun el -> 
-                    for entry:PerformanceEntry in JS.Window.Performance.GetEntries() do
-                        match entry.EntryType with
-                        | e when e = EntryType.Paint -> Console.Log $"largest contentful paint id: %s{(e |> As<LargestContentfulPaint>).Id}"
-                        | _ -> Console.Log entry.EntryType
-                    PerformanceObserver(fun ((list:PerformanceObserver.EntryList),(b: PerformanceObserver)) -> (
-                        for r in list.GetEntries() do
-                            Console.Log $"OBSERVER {r.EntryType}: id: evt start: {r.StartTime} | evt end: {r.StartTime+r.Duration}"
-                            ()
-                    )).Observe(PerformanceObserver.Options(EntryType.Layout_shift))
-                    
-                    let ele = JS.Document.GetElementById("examplelist")
-                    promise {
-                        for i in 0..10 do
-                            do! Async.Sleep 500
-                            sampleList.Update (fun li -> i::li)
+        refresh ()
 
-                    } |> ignore
-
-                )
-            ] [
-                h2 [] [text "Sample list goes here"]
-                h3 [] [text "Check the console for paint event logs"]
-                ol [] [
-                    sampleList.View
-                    |> Doc.BindSeqCached (fun x -> li [attr.id(string x)] [text "sample list element"])
-                ]
-                
-            ]
-        ] |> Doc.RunById "main"
+        IndexTemplate()
+            .status(status.V)
+            .entryCount(entryCount.V)
+            .paintCount(paintCount.V)
+            .paintTimings(
+                Doc.BindSeqCached (fun s -> Doc.Element "li" [] [ Doc.TextNode s ]) paintTimings.View
+            )
+            .entries(
+                Doc.BindSeqCached (fun s -> Doc.Element "li" [] [ Doc.TextNode s ]) entries.View
+            )
+            .refresh(fun _ -> refresh ())
+            .runMark(fun _ -> runMark ())
+            .Bind()
