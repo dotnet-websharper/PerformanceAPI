@@ -1,22 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>WebSharper.PerformanceAPI Sample Page</title>
+    <title>WebSharper Performance API Demo</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%234f46e5'/%3E%3Cpath d='M2 12l3.5-5 2.5 3 2-2.5L14 12z' fill='white'/%3E%3C/svg%3E" />
     <link rel="stylesheet" type="text/css" href="Content/WebSharper.PerformanceAPI.Sample.css" />
-    <style>
-        /* Don't show the not-yet-loaded templates */
-        [ws-template], [ws-children-template] { display: none; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="site.css" />
     <script type="module" src="Content/WebSharper.PerformanceAPI.Sample.head.js"></script>
 </head>
 <body>
-    
-    <div id="main">
-    </div>
-    
-    <script type="module" src="Content/WebSharper.PerformanceAPI.Sample.js"></script>
+    <main class="page">
+        <header class="hero">
+            <h1>Performance API Demo</h1>
+            <p class="lede">
+                Read timing entries from the
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance_API" target="_blank" rel="noreferrer">Performance API</a>
+                with <code>PerformanceObserver</code> and <code>performance.getEntries()</code>.
+            </p>
+        </header>
+
+        <section class="card">
+            <h2>Snapshot</h2>
+            <p class="hint">Total entries currently recorded by the browser.</p>
+            <div class="actions">
+                <button class="btn btn-primary" ws-onclick="refresh">Refresh entries</button>
+                <button class="btn" ws-onclick="runMark">Mark &amp; measure</button>
+            </div>
+            <p class="status" role="status">${status}</p>
+            <p class="directory">Entries: ${entryCount} &middot; Paint entries: ${paintCount}</p>
+        </section>
+
+        <section class="card">
+            <h2>Paint timings</h2>
+            <p class="hint">First paint and first contentful paint, collected through a <code>PerformanceObserver</code>.</p>
+            <ul class="entries" ws-hole="paintTimings"></ul>
+        </section>
+
+        <section class="card">
+            <h2>All entries</h2>
+            <p class="hint">Everything returned by <code>performance.getEntries()</code> at the last refresh.</p>
+            <ul class="entries" ws-hole="entries"></ul>
+        </section>
+    </main>
+    <script type="module" src="Content/WebSharper.PerformanceAPI.Sample.min.js"></script>
 </body>
 </html>
-

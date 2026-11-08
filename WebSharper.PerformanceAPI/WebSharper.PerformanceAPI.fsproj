@@ -6,7 +6,7 @@
     <WebSharperSourceMap>false</WebSharperSourceMap>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Product>WebSharper.PerformanceAPI</Product>
-    <Title>https://github.com/dotnet-websharper/w4c-webperf/</Title>
+    <Title>https://github.com/dotnet-websharper/PerformanceAPI/</Title>
     <Company>IntelliFactory</Company>
     <Copyright>(c) 2023 IntelliFactory</Copyright>
   </PropertyGroup>
@@ -16,5 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\WebSharper.Bindings.PerformanceAPI\WebSharper.Bindings.PerformanceAPI.fsproj" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="WebSharper" Version="10.1.10.687" />
+    <PackageReference Include="WebSharper.FSharp" Version="10.1.10.687" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="10.1.403" />
+  </ItemGroup>
 </Project>

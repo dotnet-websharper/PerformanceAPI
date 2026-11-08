@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-        <TargetFrameworks>netstandard2.0</TargetFrameworks>
-        <WebSharperProject>Bundle</WebSharperProject>
-        <WebSharperBundleOutputDir>Content</WebSharperBundleOutputDir>
-        <WebSharperSourceMap>false</WebSharperSourceMap>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <WebSharperProject>Bundle</WebSharperProject>
+    <WebSharperBundleOutputDir>Content</WebSharperBundleOutputDir>
+    <WebSharperSourceMap>false</WebSharperSourceMap>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <Content Include="site.css" />
     <Compile Include="Client.fs" />
-    <None Include="vite.config.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSharper.Bindings.PerformanceAPI\WebSharper.Bindings.PerformanceAPI.fsproj" />
     <ProjectReference Include="..\WebSharper.PerformanceAPI\WebSharper.PerformanceAPI.fsproj" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="WebSharper" Version="10.1.10.687" />
+    <PackageReference Include="WebSharper.FSharp" Version="10.1.10.687" />
+    <PackageReference Include="WebSharper.UI" Version="10.1.8.687" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="10.1.403" />
+  </ItemGroup>
 </Project>
