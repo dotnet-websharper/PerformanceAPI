@@ -15,8 +15,10 @@ tags
     Web JavaScript F# C#
 files
     ../WebSharper.Bindings.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.Bindings.PerformanceAPI.dll ==> lib/netstandard2.0
+    ../WebSharper.Bindings.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.Bindings.PerformanceAPI.websharper ==> lib/netstandard2.0
     ../WebSharper.Bindings.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.Bindings.PerformanceAPI.xml ==> lib/netstandard2.0
     ../WebSharper.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.PerformanceAPI.dll ==> lib/netstandard2.0
+    ../WebSharper.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.PerformanceAPI.websharper ==> lib/netstandard2.0
     ../WebSharper.PerformanceAPI/bin/Release/netstandard2.0/WebSharper.PerformanceAPI.xml ==> lib/netstandard2.0
 dependencies
         WebSharper ~> LOCKEDVERSION:[3]
